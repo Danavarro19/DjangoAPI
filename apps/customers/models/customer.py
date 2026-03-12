@@ -7,4 +7,5 @@ class Customer(Model):
     date_of_birth = DateField()
 
     class Meta:
+        app_label = 'customers'
         db_table = 'customers'
