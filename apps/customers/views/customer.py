@@ -13,15 +13,15 @@ def customers(request):
     return create_customer(request)
 
 def list_customers():
-    all_customers = Customer.objects.all()
-    serializer = CustomerSerializer(all_customers, many=True)
+    from apps.customers.services.customer import list_customers
+    customers_data = list_customers()
 
-    return Response(serializer.data)
+    return Response(customers_data)
 
 def create_customer(request):
-    serializer = CustomerSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    from apps.customers.services.customer import create_customer
+    try:
+        data = create_customer(request.data)
+        return Response(data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response(e, status=status.HTTP_400_BAD_REQUEST)
