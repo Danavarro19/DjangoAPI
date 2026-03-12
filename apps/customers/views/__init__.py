@@ -1,5 +1,5 @@
-from apps.customers.views.customer import list_customers
+from apps.customers.views.customer import customers
 
 __all__ = [
-    'list_customers'
+    'customers'
 ]

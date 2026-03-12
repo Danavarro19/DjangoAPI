@@ -1,7 +1,7 @@
 from django.urls import path
-from apps.customers.views import list_customers
+from apps.customers.views import customers
 
 
 urlpatterns = [
-    path('', list_customers, name='all_customers')
+    path('', customers, name='all_customers')
 ]
