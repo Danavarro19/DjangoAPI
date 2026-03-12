@@ -11,7 +11,7 @@ base_dir = Path(__file__).resolve().parent
 apps_dir = base_dir / "apps"
 app_dir = apps_dir / app_name
 
-folders = ["views", "services", "models", "urls"]
+folders = ["views", "services", "serializers", "models", "urls"]
 
 # Ensure apps/ exists
 apps_dir.mkdir(exist_ok=True)
