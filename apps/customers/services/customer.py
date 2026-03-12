@@ -1,18 +1,13 @@
+from django.shortcuts import get_object_or_404
+
 from apps.customers.models import Customer
-from apps.customers.serializers.customer import CustomerSerializer
 
 
 def list_customers():
-    all_customers = Customer.objects.all()
-    serializer = CustomerSerializer(all_customers, many=True)
-
-    return serializer.data
+    return Customer.objects.all()
 
 def create_customer(data):
-    serializer = CustomerSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return serializer.data
+    return Customer.objects.create(**data)
 
-    raise Exception(serializer.errors)
-
+def get_customer(pk):
+    return get_object_or_404(Customer, pk=pk)
