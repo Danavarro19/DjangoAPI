@@ -19,12 +19,14 @@ def customers(request):
 @api_view(["GET", "PUT"])
 def customer(request, customer_id):
     if request.method == "GET":
-        return get_customer(customer_id)
+        customer_data = get_customer(customer_id)
+        return Response(customer_data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 def get_customer(pk):
     customer_data = get_customer_service(pk)
-    return Response(customer_data, status=status.HTTP_200_OK)
+    response_serializer = CustomerSerializer(customer_data)
+    return response_serializer.data
 
 def list_customers():
     customers_data = list_customers_service()
