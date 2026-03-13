@@ -7,6 +7,7 @@ from apps.customers.services.customer import (
     create_customer as create_customer_service,
     get_customer as get_customer_service,
     list_customers as list_customers_service,
+    update_customer as update_customer_service
 )
 
 
@@ -21,11 +22,22 @@ def customer(request, customer_id):
     if request.method == "GET":
         customer_data = get_customer(customer_id)
         return Response(customer_data, status=status.HTTP_200_OK)
+    if request.method == "PUT":
+        updated_customer = update_customer(customer_id, request.data)
+        return Response(updated_customer, status=status.HTTP_200_OK)
+
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 def get_customer(pk):
     customer_data = get_customer_service(pk)
     response_serializer = CustomerSerializer(customer_data)
+    return response_serializer.data
+
+def update_customer(pk, data):
+    serializer = CustomerSerializer(data=data)
+    serializer.is_valid(raise_exception=True)
+    updated_customer = update_customer_service(pk, serializer.validated_data)
+    response_serializer = CustomerSerializer(updated_customer)
     return response_serializer.data
 
 def list_customers():

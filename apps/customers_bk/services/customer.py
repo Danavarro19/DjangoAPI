@@ -11,3 +11,10 @@ def create_customer(data):
 
 def get_customer(pk):
     return get_object_or_404(Customer, pk=pk)
+
+def update_customer(pk, data):
+    customer = get_object_or_404(Customer, pk=pk)
+    for field, value in data.items():
+        setattr(customer, field, value)
+    customer.save()
+    return customer
