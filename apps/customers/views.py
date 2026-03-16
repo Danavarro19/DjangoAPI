@@ -11,7 +11,7 @@ from apps.customers.serializers import CustomerSerializer
 def customers(request):
     if request.method == "POST":
         return create_customer(request)
-    return list_customers()
+    return list_customers(request)
 
 @api_view(["GET", "PUT"])
 def customer(request, customer_id):
@@ -38,7 +38,7 @@ def update_customer(pk, data):
     return Response(response_serializer.data, status=status.HTTP_200_OK)
 
 
-def list_customers():
+def list_customers(request):
     customers_data = Customer.objects.all()
     response_serializer = CustomerSerializer(customers_data, many=True)
     return Response(response_serializer.data, status=status.HTTP_200_OK)
