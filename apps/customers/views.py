@@ -9,45 +9,35 @@ from apps.customers.serializers import CustomerSerializer
 
 @api_view(["GET", "POST"])
 def customers(request):
-    if request.method == "POST":
-        return create_customer(request)
-    return list_customers(request)
+    if request.method == "GET":
+        return list_customers(request)
+    return create_customer(request)
 
 @api_view(["GET", "PUT"])
-def customer(request, customer_id):
+def customer_detail(request, customer_id):
     if request.method == "GET":
         return get_customer(customer_id)
-    if request.method == "PUT":
-        return update_customer(customer_id, request.data)
-
-    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    return update_customer(customer_id, request.data)
 
 def get_customer(pk):
-    customer_data = get_object_or_404(Customer, pk=pk)
-    response_serializer = CustomerSerializer(customer_data)
-    return Response(response_serializer.data, status=status.HTTP_200_OK)
+    customer = get_object_or_404(Customer, pk=pk)
+    serializer = CustomerSerializer(customer)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 def update_customer(pk, data):
-    customer_to_update = get_object_or_404(Customer, pk=pk)
-    serializer = CustomerSerializer(customer_to_update, data=data)
+    customer = get_object_or_404(Customer, pk=pk)
+    serializer = CustomerSerializer(customer, data=data)
     serializer.is_valid(raise_exception=True)
-
-    customer_updated = serializer.save()
-    response_serializer = CustomerSerializer(customer_updated)
-
-    return Response(response_serializer.data, status=status.HTTP_200_OK)
-
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 def list_customers(request):
-    customers_data = Customer.objects.all()
-    response_serializer = CustomerSerializer(customers_data, many=True)
-    return Response(response_serializer.data, status=status.HTTP_200_OK)
+    customer_list = Customer.objects.all()
+    serializer = CustomerSerializer(customer_list, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 def create_customer(request):
     serializer = CustomerSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    customer_new = serializer.save()
-    response_serializer= CustomerSerializer(customer_new)
-
-    return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
