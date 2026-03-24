@@ -55,9 +55,6 @@ def customer_appointments(request, customer_id):
 @api_view(["GET"])
 def customer_appointment_detail(request, customer_id, appointment_id):
     customer = get_object_or_404(Customer, pk=customer_id)
-    try:
-        appointment = customer.appointments.get(pk=appointment_id)
-    except Appointment.DoesNotExist:
-        return Response({"message": "No entry found"},status=status.HTTP_404_NOT_FOUND)
+    appointment = get_object_or_404(Appointment, pk=appointment_id, customer=customer)
     serializer = AppointmentSerializer(appointment)
     return Response(serializer.data)
