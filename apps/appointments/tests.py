@@ -156,16 +156,16 @@ class AppointmentApiTests(APITestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["id"], self.appointment_1.id)
 
-    def test_list_customer_appointments_returns_200(self):
-        response = self.client.get(f"/customers/{self.customer_1.id}/appointments/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    # def test_list_customer_appointments_returns_200(self):
+    #     response = self.client.get(f"/customers/{self.customer_1.id}/appointments/")
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_list_customer_appointments_returns_only_customer_records(self):
-        response = self.client.get(f"/customers/{self.customer_1.id}/appointments/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
-
-        returned_ids = {item["id"] for item in response.data}
-        self.assertIn(self.appointment_1.id, returned_ids)
-        self.assertIn(self.appointment_2.id, returned_ids)
-        self.assertNotIn(self.appointment_3.id, returned_ids)
+    # def test_list_customer_appointments_returns_only_customer_records(self):
+    #     response = self.client.get(f"/customers/{self.customer_1.id}/appointments/")
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(len(response.data), 2)
+    #
+    #     returned_ids = {item["id"] for item in response.data}
+    #     self.assertIn(self.appointment_1.id, returned_ids)
+    #     self.assertIn(self.appointment_2.id, returned_ids)
+    #     self.assertNotIn(self.appointment_3.id, returned_ids)

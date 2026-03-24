@@ -9,5 +9,5 @@ class Appointment(models.Model):
         ("completed", "Completed"),
         ("cancelled", "Cancelled"),
     ])
-    notes = models.TextField(blank=True)
+    notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
